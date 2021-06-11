@@ -1,0 +1,8 @@
+name: "Divulgação do Projeto"
+navbar:
+  title: "Sementes da Amazônia"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
