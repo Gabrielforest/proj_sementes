@@ -1,0 +1,19 @@
+---
+title: "Sobre"
+description: |
+  Mídia referente a disciplina de Produção de Tecnologia de Sementes Florestais 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+\  
+\  
+
+### Olá!
+  
+Esta página foi desenvolvida como meio de divulgação do projeto realizado referente as sementes da Amazônia durante o edital ... de Produção e Tecnologia de Sementes Florestais pelos engenheiros:
+Bruno Gonçalves, Gabriel F. Pereira, Gabriel Ribeiro, Rafael Adão e Leonardo Kobayashi.
+
+ 
+Portanto, o objetivo desse site é ...
