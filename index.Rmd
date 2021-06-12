@@ -1,0 +1,43 @@
+---
+title: "Sementes da Amazônia"
+author: "Gabriel de Freitas Pereira"
+date: "28/06/2021"
+output: html_document
+---
+
+\  
+\  
+\  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Projeto dos bagaços
+
+\  
+\  
+
+Olá!
+
+Introdução...
+
+```{r}
+
+```
+
+\  
+\  
+\  
+
+## Gráficos
+
+\  
+\  
+
+Análise dos dados:
+
+```{r pressure, echo=FALSE}
+
+```
+
