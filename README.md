@@ -1,4 +1,5 @@
 # Sementes do Bioma da Amazônia
+Fornecimento de sementes 
 PTSF - Produção e Tecnologia de Sementes Florestais 
 
 Fundação de apoio a pesquisa em sementes e restauração de áreas degradadas – SEMAD
@@ -23,6 +24,6 @@ tempo tão vulnerável nos tempos atuais.
   
 ## Objetivo  
 Desenvolver o fornecimento de sementes
-visando a restauração de áreas degradadas no bioma Amazônico.
+visando a restauração de áreas degradadas no bioma Amazônico atendendo as exigências do SEMAD.
 
 ![video](https://amazonaid.org/wp-content/uploads/2019/02/ezgif.com-optimize.gif)
