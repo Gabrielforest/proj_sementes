@@ -18,7 +18,7 @@ de áreas degradadas com espécies vegetais nativas. Deste modo, pretende-se atu
 região da Amazônia, para seu futuro uso na restauração e recuperação de áreas
 e o aumento da conectividade da paisagem – fator chave para a manutenção dos
 processos ecológicos e proteção de espécies a longo prazo – e para ampliar a
-representatividade de um dos ecossistemas tão importantes para a biodiversidade e ao mesmo
+representatividade de um dos ecossistemas mais importantes para a biodiversidade e ao mesmo
 tempo tão vulnerável nos tempos atuais.
   
 ## Objetivo  
