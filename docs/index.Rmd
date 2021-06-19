@@ -2,42 +2,134 @@
 title: "Sementes da Amazônia"
 author: "Gabriel de Freitas Pereira"
 date: "28/06/2021"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: "cayman"
 ---
-
-\  
-\  
-\  
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(crosstalk)
+library(reactable)
+library(plotly)
+library(reactable)
+library(reactablefmtr)
+library(magrittr)
+library(dplyr)
+
 ```
 
-# Projeto dos bagaços
 
-\  
-\  
+### Projeto de Restauração 
 
 Olá!
+  
+Esta página foi desenvolvida como meio de divulgação do projeto de restauração via semeadura direta de uma área referente ao bioma Amazônico, na cidade de ______ - MT. Sendo o presente estudo proposto com base nas demandas referentes ao edital de 2021 da fundação de apoio a pesquisa em sementes e restauração de áreas degradadas – SEMAD.   
 
-Introdução...
+Desse modo, o presente projeto foi elaborado em colaboração entre os engenheiros da empresa **Restaura+**:
+Bruno Gonçalves, Gabriel F. Pereira, Gabriel Ribeiro, Rafael Adão e Leonardo Kobayashi.
 
-```{r}
-
-```
-
-\  
-\  
-\  
-
-## Gráficos
+ 
+Portanto, o objetivo desse site é disseminar informações sobre as espécies e principais propostas de impacto relacionadas ao projeto.
 
 \  
 \  
+\  
 
-Análise dos dados:
+#### Gráficos
 
-```{r pressure, echo=FALSE}
+\  
+\  
+
+```{r pressure, echo = FALSE, warning=FALSE}
+sheets <- read.csv2("C:/Users/RanulfoGabriel/Dropbox/My PC (DESKTOP-845RU19)/Desktop/planilha_sementes.csv", header = TRUE)
+
+sheets$Custo.Kg.semente.Fornecedor.1..Rede.de.sememtes.do.Xingu. <- as.numeric(sheets$Custo.Kg.semente.Fornecedor.1..Rede.de.sememtes.do.Xingu.)
+
+sheets$`Custo.Kg.semente..Fornecedor.2..Rede.de.Sementes.do.Portal.da.Amazônia.` <- as.numeric(sheets$`Custo.Kg.semente..Fornecedor.2..Rede.de.Sementes.do.Portal.da.Amazônia.`)
+
+sheets$Tamanho.da.semente <- as.factor(sheets$Tamanho.da.semente)
+
+sheets$Tipo.de.Fruto..seco.ou.carnoso. <- as.factor(sheets$Tipo.de.Fruto..seco.ou.carnoso.)
+
+sheets$Fruto.deiscente.ou.indeiscente <- as.factor(sheets$Fruto.deiscente.ou.indeiscente)
+
+sheets$`Grupo.sucessional.ecológico` <- as.factor(sheets$`Grupo.sucessional.ecológico`) 
+
+sheets$`Taxa.de.germinação` <- as.numeric(sheets$`Taxa.de.germinação`)
+
+sheets$N..de.sementes.kg <- as.numeric(sheets$N..de.sementes.kg)
+
+sheets[is.na(sheets)] <- 0
+
+sheets <- sheets[,c(1,11,12,13,14,17,18)]
+
+names(sheets) <- c("Nome científico", "grupo sucessional", "Número de Sementes/kg", "Tamanho da semente", "Taxa de germinação", "Custo Rede de Sementes do Xingu", "Custo Rede de Sementes do Portal da Amazônia")
+
+
+data <- SharedData$new(sheets)
+
+
+#creating a reactable:
+# change the P M and G by numbers
+#standard of page, rows and columns
+
+table1 <- data %>% 
+  reactable(
+    defaultPageSize = 16,
+    wrap = FALSE,
+    defaultColDef = colDef(resizable = TRUE, maxWidth = 330,sortable = TRUE),
+    details = function(i) {
+      i
+    },
+    columns = list(
+      .rownames = colDef(maxWidth = 200),
+      `Taxa de germinação` = colDef(format = colFormat(suffix = "%")), 
+      `Custo Rede de Sementes do Xingu` = colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
+       `Custo Rede de Sementes do Portal da Amazônia`= colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
+       `Número de Sementes/kg` = colDef(cell = data_bars(sheets, fill_color = RColorBrewer::brewer.pal(5, "YlOrRd")), 
+    align = "center"
+    )
+  )
+)
+
+
+#graph 
+f <-  list(
+  family = "Courier New, monospace", 
+  size = 12
+)
+#x <- list(title = "Custo (R$/kg)", titlefont = f)
+#y <- list(title = "Taxa de germinação (%)", titlefont = f)
+#ly <- plot_ly(data,x=~`Custo Rede de Sementes do Xingu`,y =~`Taxa de germinação`,
+#              color=~`Nome científico`,colors="Set1",mode="markers",type="scatter") 
+
+x <- list(title = "Tamanho da semente", titlefont = f)
+y <- list(title = "Taxa de germinação (%)", titlefont = f)
+ly <- plot_ly(data,x=~`Tamanho da semente`,y =~`Taxa de germinação`,
+              color=~`grupo sucessional`,colors="Set1", type = "bar")
+
+ly <- ly %>% 
+  layout(xaxis = x, yaxis = y)
+ly
+              
+
+filters <- bscols(widths = c(12),
+                  list(
+                    #filter_checkbox("id", "Selecione o tamanho da semente:",
+                    #                data, ~`Tamanho da semente`, inline = TRUE),
+                    #ly,
+                    
+                    
+                    filter_select("id2", "Selecione o grupo ecológico:",
+                                  data, ~`grupo sucessional`),
+                    table1
+                  )
+) 
+
+bscols(filters)
+
 
 ```
 
