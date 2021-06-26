@@ -23,7 +23,7 @@ library(ggplot2)
 
 <center>
 
-![](/Users/RanulfoGabriel/Dropbox/My PC (DESKTOP-845RU19)/Desktop/sementes/proj_sementes/docs/logo/Restaura+.png)
+![](/Users/RanulfoGabriel/Dropbox/My PC (DESKTOP-845RU19)/Desktop/sementes/proj_sementes/logo/Restaura+.png)
 
 </center>
 
