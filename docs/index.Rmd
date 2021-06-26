@@ -2,9 +2,9 @@
 title: "Sementes da Amazônia"
 author: "Gabriel de Freitas Pereira"
 date: "28/06/2021"
-output:
+output: 
   prettydoc::html_pretty:
-    theme: "cayman"
+    theme: "hpstr"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,27 +17,28 @@ library(reactable)
 library(reactablefmtr)
 library(magrittr)
 library(dplyr)
+library(ggplot2)
 
 ```
 
 
 ### Projeto de Restauração 
+  
+\  
 
 Olá!
   
-Esta página foi desenvolvida como meio de divulgação do projeto de restauração via semeadura direta de uma área referente ao bioma Amazônico, na cidade de ______ - MT. Sendo o presente estudo proposto com base nas demandas referentes ao edital de 2021 da fundação de apoio a pesquisa em sementes e restauração de áreas degradadas – SEMAD.   
+Esta página foi desenvolvida como meio de divulgação do projeto de restauração via semeadura direta de uma área referente ao bioma Amazônico, na cidade de Altamira - PA. Sendo o presente estudo proposto com base nas demandas referentes ao edital de 2021 da fundação de apoio a pesquisa em sementes e restauração de áreas degradadas – SEMAD.   
 
 Desse modo, o presente projeto foi elaborado em colaboração entre os engenheiros da empresa **Restaura+**:
-Bruno Gonçalves, Gabriel F. Pereira, Gabriel Ribeiro, Rafael Adão e Leonardo Kobayashi.
+Bruno Gonçalves, Gabriel F. Pereira, Gabriel Ribeiro, Rafael Adão e Leonardo Kobayashi; visando disseminar informações sobre as espécies.
 
- 
-Portanto, o objetivo desse site é disseminar informações sobre as espécies e principais propostas de impacto relacionadas ao projeto.
 
 \  
 \  
 \  
 
-#### Gráficos
+### Dados das espécies escolhidas
 
 \  
 \  
@@ -45,9 +46,7 @@ Portanto, o objetivo desse site é disseminar informações sobre as espécies e
 ```{r pressure, echo = FALSE, warning=FALSE}
 sheets <- read.csv2("C:/Users/RanulfoGabriel/Dropbox/My PC (DESKTOP-845RU19)/Desktop/planilha_sementes.csv", header = TRUE)
 
-sheets$Custo.Kg.semente.Fornecedor.1..Rede.de.sememtes.do.Xingu. <- as.numeric(sheets$Custo.Kg.semente.Fornecedor.1..Rede.de.sememtes.do.Xingu.)
-
-sheets$`Custo.Kg.semente..Fornecedor.2..Rede.de.Sementes.do.Portal.da.Amazônia.` <- as.numeric(sheets$`Custo.Kg.semente..Fornecedor.2..Rede.de.Sementes.do.Portal.da.Amazônia.`)
+sheets <- sheets[1:46,]
 
 sheets$Tamanho.da.semente <- as.factor(sheets$Tamanho.da.semente)
 
@@ -63,10 +62,11 @@ sheets$N..de.sementes.kg <- as.numeric(sheets$N..de.sementes.kg)
 
 sheets[is.na(sheets)] <- 0
 
-sheets <- sheets[,c(1,11,12,13,14,17,18)]
+sheets <- sheets[,c(1,11,13,14,15,24)]
 
-names(sheets) <- c("Nome científico", "grupo sucessional", "Número de Sementes/kg", "Tamanho da semente", "Taxa de germinação", "Custo Rede de Sementes do Xingu", "Custo Rede de Sementes do Portal da Amazônia")
+names(sheets) <- c("Nome científico", "Grupo sucessional", "Número de Sementes/kg", "Tamanho da semente", "Taxa de germinação", "Preço selecionado")
 
+sheets <- sheets[order(sheets$`Taxa de germinação`),]
 
 data <- SharedData$new(sheets)
 
@@ -86,9 +86,8 @@ table1 <- data %>%
     columns = list(
       .rownames = colDef(maxWidth = 200),
       `Taxa de germinação` = colDef(format = colFormat(suffix = "%")), 
-      `Custo Rede de Sementes do Xingu` = colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
-       `Custo Rede de Sementes do Portal da Amazônia`= colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
-       `Número de Sementes/kg` = colDef(cell = data_bars(sheets, fill_color = RColorBrewer::brewer.pal(5, "YlOrRd")), 
+      `Preço selecionado` = colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
+      `Número de Sementes/kg` = colDef(cell = data_bars(sheets, fill_color = RColorBrewer::brewer.pal(5, "YlOrRd")), 
     align = "center"
     )
   )
@@ -100,21 +99,23 @@ f <-  list(
   family = "Courier New, monospace", 
   size = 12
 )
-#x <- list(title = "Custo (R$/kg)", titlefont = f)
-#y <- list(title = "Taxa de germinação (%)", titlefont = f)
-#ly <- plot_ly(data,x=~`Custo Rede de Sementes do Xingu`,y =~`Taxa de germinação`,
-#              color=~`Nome científico`,colors="Set1",mode="markers",type="scatter") 
+
+#ly <- plot_ly(data, x=~`Tamanho da semente`, y =~`Taxa de germinação`,
+#              color=~`Grupo sucessional`,colors="Set1", type = "scatter", mode= "markers") 
+
+gg <- ggplot(data = data, aes(fill =`Grupo sucessional`, x=`Tamanho da semente`, y =`Taxa de germinação`)) +
+  geom_bar(position = "dodge", stat = "identity")
+
+gg <- ggplotly(gg)
 
 x <- list(title = "Tamanho da semente", titlefont = f)
-y <- list(title = "Taxa de germinação (%)", titlefont = f)
-ly <- plot_ly(data,x=~`Tamanho da semente`,y =~`Taxa de germinação`,
-              color=~`grupo sucessional`,colors="Set1", type = "bar")
+y <- list(title = "Taxa de germinação (%)", titlefont = f )
 
-ly <- ly %>% 
+gg <- gg %>% 
   layout(xaxis = x, yaxis = y)
-ly
-              
+gg
 
+    
 filters <- bscols(widths = c(12),
                   list(
                     #filter_checkbox("id", "Selecione o tamanho da semente:",
@@ -122,8 +123,8 @@ filters <- bscols(widths = c(12),
                     #ly,
                     
                     
-                    filter_select("id2", "Selecione o grupo ecológico:",
-                                  data, ~`grupo sucessional`),
+                    filter_checkbox("id2", "Selecione o grupo ecológico:",
+                                  data, ~`Grupo sucessional`),
                     table1
                   )
 ) 
