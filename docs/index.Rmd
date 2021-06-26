@@ -21,9 +21,18 @@ library(ggplot2)
 
 ```
 
+<center>
 
-### Projeto de Restauração 
+![](/Users/RanulfoGabriel/Dropbox/My PC (DESKTOP-845RU19)/Desktop/Restaura+.png)
+
+</center>
+
+\  
+\  
+
+### Projeto de restauração
   
+\  
 \  
 
 Olá!
@@ -46,8 +55,6 @@ Bruno Gonçalves, Gabriel F. Pereira, Gabriel Ribeiro, Rafael Adão e Leonardo K
 ```{r pressure, echo = FALSE, warning=FALSE}
 sheets <- read.csv2("C:/Users/RanulfoGabriel/Dropbox/My PC (DESKTOP-845RU19)/Desktop/planilha_sementes.csv", header = TRUE)
 
-sheets <- sheets[1:46,]
-
 sheets$Tamanho.da.semente <- as.factor(sheets$Tamanho.da.semente)
 
 sheets$Tipo.de.Fruto..seco.ou.carnoso. <- as.factor(sheets$Tipo.de.Fruto..seco.ou.carnoso.)
@@ -62,9 +69,9 @@ sheets$N..de.sementes.kg <- as.numeric(sheets$N..de.sementes.kg)
 
 sheets[is.na(sheets)] <- 0
 
-sheets <- sheets[,c(1,11,13,14,15,24)]
+sheets <- sheets[,c(1,11,13,14,15,25)]
 
-names(sheets) <- c("Nome científico", "Grupo sucessional", "Número de Sementes/kg", "Tamanho da semente", "Taxa de germinação", "Preço selecionado")
+names(sheets) <- c("Nome científico", "Grupo sucessional", "Número de Sementes/kg", "Tamanho da semente", "Taxa de germinação", "Custo por ha")
 
 sheets <- sheets[order(sheets$`Taxa de germinação`),]
 
@@ -86,7 +93,7 @@ table1 <- data %>%
     columns = list(
       .rownames = colDef(maxWidth = 200),
       `Taxa de germinação` = colDef(format = colFormat(suffix = "%")), 
-      `Preço selecionado` = colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
+      `Custo por ha` = colDef(style = color_scales(sheets), format = colFormat(prefix = "R$")),
       `Número de Sementes/kg` = colDef(cell = data_bars(sheets, fill_color = RColorBrewer::brewer.pal(5, "YlOrRd")), 
     align = "center"
     )
